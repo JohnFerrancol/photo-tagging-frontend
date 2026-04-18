@@ -67,6 +67,7 @@ photo-tagging-frontend/
 └── vite.config.js
 └── vercel.json
 └── index.html
+```
 
 ## Getting Started
 
@@ -87,7 +88,7 @@ Getting started on running the webpack server to your localhost, localhost:8080
 1. Cloning the repository
 
 ```sh
-git clone git@github.com:JohnFerrancol/XX.git
+git clone git@github.com:JohnFerrancol/photo-tagging-frontend.git
 ```
 
 2. Installing npm packages
