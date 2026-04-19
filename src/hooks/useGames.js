@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
-const useGame = () => {
+const useGames = () => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -17,7 +17,7 @@ const useGame = () => {
     } catch (error) {
       console.error(error);
     } finally {
-      setTimeout(() => setLoading(false), 5000);
+      setTimeout(() => setLoading(false), 1000);
     }
   };
 
@@ -28,4 +28,4 @@ const useGame = () => {
   return { games, loading };
 };
 
-export default useGame;
+export default useGames;

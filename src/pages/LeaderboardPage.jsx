@@ -1,11 +1,40 @@
-import { useParams } from 'react-router';
+import { Link, useParams } from 'react-router';
+import useGames from '../hooks/useGames';
+import useLeaderboard from '../hooks/useLeaderboard';
+import LoadingComponent from '../components/LoadingComponent';
+import LeaderboardTable from '../components/LeaderboardTable';
+import LeaderboardLink from '../components/LeaderboardLink';
 
 const LeaderboardPage = () => {
   const { gameId } = useParams();
+  const { games } = useGames();
+  const { leaderboardData, loading } = useLeaderboard(gameId);
+
+  if (loading) {
+    return <LoadingComponent data="Leaderboard" />;
+  }
+
   return (
-    <div>
-      <h1>Leaderboard Page</h1>
-      <p>{gameId}</p>
+    <div className="flex flex-col gap-2 mt-20 px-10">
+      <div className="flex items-center justify-between">
+        <h1 className="text-center font-bold text-3xl text-[#dc4c3e]">Leaderboard</h1>
+
+        <div className="justify-center flex gap-3">
+          {games.map((game) => (
+            <LeaderboardLink
+              key={game.id}
+              gameName={game.name}
+              gameId={game.id}
+              currentGameId={leaderboardData.game.id}
+            />
+          ))}
+        </div>
+      </div>
+
+      <LeaderboardTable
+        gameName={leaderboardData.game.name}
+        leaderboard={leaderboardData.leaderboard}
+      />
     </div>
   );
 };
