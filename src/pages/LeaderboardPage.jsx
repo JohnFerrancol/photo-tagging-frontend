@@ -1,9 +1,10 @@
 import { Link, useParams } from 'react-router';
 import useGames from '../hooks/useGames';
 import useLeaderboard from '../hooks/useLeaderboard';
-import LoadingComponent from '../components/LoadingComponent';
-import LeaderboardTable from '../components/LeaderboardTable';
-import LeaderboardLink from '../components/LeaderboardLink';
+import LoadingComponent from '../components/shared/LoadingComponent';
+import FetchFailure from '../components/shared/FetchFailure';
+import LeaderboardTable from '../components/leaderboard/LeaderboardTable';
+import LeaderboardLink from '../components/leaderboard/LeaderboardLink';
 
 const LeaderboardPage = () => {
   const { gameId } = useParams();

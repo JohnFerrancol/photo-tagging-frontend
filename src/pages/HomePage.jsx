@@ -1,7 +1,7 @@
 import useGames from '../hooks/useGames';
-import LoadingComponent from '../components/LoadingComponent';
-import FetchFailure from '../components/FetchFailure';
-import GameLink from '../components/GameLink';
+import LoadingComponent from '../components/shared/LoadingComponent';
+import FetchFailure from '../components/shared/FetchFailure';
+import GameLink from '../components/home/GameLink';
 
 const HomePage = () => {
   const { games, loading, error } = useGames();

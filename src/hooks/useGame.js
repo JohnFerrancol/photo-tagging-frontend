@@ -28,7 +28,25 @@ const useGame = (gameId) => {
     fetchGame();
   }, [gameId]);
 
-  return { gameData, loading, error };
+  const guessCharacter = async (bodyData) => {
+    try {
+      const response = await fetch(`${API_URL}/api/v1/games/${gameId}/guess`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(bodyData),
+      });
+
+      if (!response.ok) throw new Error('Guess failed');
+
+      const guessData = await response.json();
+      return guessData.correct;
+    } catch (error) {
+      console.error(error);
+      return { correct: false };
+    }
+  };
+
+  return { gameData, loading, error, guessCharacter };
 };
 
 export default useGame;

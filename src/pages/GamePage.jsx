@@ -1,16 +1,22 @@
 import { useParams } from 'react-router';
 import { useRef, useState } from 'react';
 import useGame from '../hooks/useGame';
-import LoadingComponent from '../components/LoadingComponent';
-import FetchFailure from '../components/FetchFailure';
+import LoadingComponent from '../components/shared/LoadingComponent';
+import FetchFailure from '../components/shared/FetchFailure';
+import GameHeader from '../components/game/GameHeader';
+import GameImage from '../components/game/GameImage';
+import MarkersLayer from '../components/game/MarkersLayer';
+import CharacterDropdown from '../components/game/CharacterDropdown';
 
 const GamePage = () => {
   const { gameId } = useParams();
-  const { gameData, loading, error } = useGame(gameId);
+  const { gameData, loading, error, guessCharacter } = useGame(gameId);
 
   const imageRef = useRef(null);
 
   const [markers, setMarkers] = useState([]);
+  const [openDropdown, setOpenDropdown] = useState(false);
+  const [clickPosition, setClickPosition] = useState(null);
 
   if (loading) {
     return <LoadingComponent message="Loading Game" />;
@@ -20,7 +26,9 @@ const GamePage = () => {
     return <FetchFailure message="Failed to load game" />;
   }
 
+  // Event handler used to obtain the normalised x and y coordinates of the positions clicked and opens the dropdown for the user to select the character
   const handleClick = (e) => {
+    // Obtain the normalised x and y coordinates: xPercent and yPercent
     const rect = imageRef.current.getBoundingClientRect();
 
     const clickX = e.clientX - rect.left;
@@ -29,49 +37,76 @@ const GamePage = () => {
     const xPercent = clickX / rect.width;
     const yPercent = clickY / rect.height;
 
-    setMarkers((prev) => [...prev, { x: xPercent, y: yPercent }]);
-
-    console.log({ x: xPercent, y: yPercent });
+    setClickPosition({ x: xPercent, y: yPercent });
+    setOpenDropdown(true);
   };
+
+  // Event Handlers used to handle the dropdown menu and verify the guess from the backend
+  const handleSelectCharacter = async (characterName) => {
+    if (!clickPosition) return;
+
+    // Verify the guess by checking with the backend
+    const correct = await guessCharacter({
+      characterName,
+      x: clickPosition.x,
+      y: clickPosition.y,
+    });
+
+    // If it is correct, update the markers array with a correct guess
+    if (correct) {
+      setMarkers((prevMarkers) => [
+        ...prevMarkers,
+        {
+          id: crypto.randomUUID(),
+          x: clickPosition.x,
+          y: clickPosition.y,
+          label: characterName,
+          status: 'correct',
+        },
+      ]);
+    } else {
+      // If it is wrong, update the markers array with a wrong guess and remove it after 1 second for user feedback
+      const wrongId = crypto.randomUUID();
+
+      setMarkers((prevMarkers) => [
+        ...prevMarkers,
+        {
+          id: wrongId,
+          x: clickPosition.x,
+          y: clickPosition.y,
+          label: characterName,
+          status: 'wrong',
+        },
+      ]);
+
+      // Remove the wrong guess after 1 second
+      setTimeout(() => {
+        setMarkers((prevMarkers) => prevMarkers.filter((markers) => markers.id !== wrongId));
+      }, 1000);
+    }
+
+    // Remove the dropdown and current clicked position state
+    setOpenDropdown(false);
+    setClickPosition(null);
+  };
+
+  const foundNames = markers.filter((m) => m.status === 'correct').map((m) => m.label);
 
   return (
     <div className="flex flex-col gap-2 px-4 py-5">
-      <h1 className="text-center font-bold text-3xl text-[#dc4c3e]">{gameData.name}</h1>
-      <h2 className="text-center text-md font-semibold">Characters to Find</h2>
+      <GameHeader gameData={gameData} foundNames={foundNames} />
 
-      <div className="flex gap-3 justify-center flex-wrap">
-        {gameData.characters.map((character) => {
-          return (
-            <div key={character.id} className="border-2 border-gray-300 rounded-lg shadow-lg">
-              <img src={character.imageUrl} className="w-full h-25 object-cover rounded-md" />
-              <h2 className="px-5 py-3 font-semibold text-center">{character.name}</h2>
-            </div>
-          );
-        })}
-      </div>
+      <GameImage imageUrl={gameData.imageUrl} imageRef={imageRef} onClick={handleClick}>
+        <MarkersLayer markers={markers} />
 
-      <div className="flex justify-center mt-6">
-        <div className="relative inline-block">
-          <img
-            onClick={handleClick}
-            ref={imageRef}
-            src={gameData.imageUrl}
-            className="h-[80vh] w-auto object-contain cursor-crosshair"
-          />
-
-          {markers.map((m, idx) => (
-            <div
-              key={idx}
-              className="absolute w-4 h-4 bg-red-500 rounded-full border-2 border-white"
-              style={{
-                left: `${m.x * 100}%`,
-                top: `${m.y * 100}%`,
-                transform: 'translate(-50%, -50%)',
-              }}
-            />
-          ))}
-        </div>
-      </div>
+        <CharacterDropdown
+          openDropdown={openDropdown}
+          clickedPosition={clickPosition}
+          characters={gameData.characters}
+          foundNames={foundNames}
+          handleSelectCharacter={handleSelectCharacter}
+        />
+      </GameImage>
     </div>
   );
 };

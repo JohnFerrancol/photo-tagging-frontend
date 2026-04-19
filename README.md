@@ -116,9 +116,9 @@ npm run dev
 - [ ] Creating the Game Session Flow
   - [ ] Start the game via the backend through the POST /api/v1/games/:id/start API endpoint
   - [ ] Track the time on the front end
-  - [ ] Capture the normalised x and y coordinates of the clicked position and allow the user to select the character from the dropdown
-  - [ ] Validate user input through the POST /api/v1/games/:id/guess endpoint
-  - [ ] Display the feedback and render markers for found characters and remove them from the dropdown selection
+  - [x] Capture the normalised x and y coordinates of the clicked position and allow the user to select the character from the dropdown
+  - [x] Validate user input through the POST /api/v1/games/:id/guess endpoint
+  - [x] Display the feedback and render markers for found characters and remove them from the dropdown selection
   - [ ] Detect in the front end when all characters are found and send the details to the POST /api/v1/games/:id/finish API endpoint
 - [x] Creating the Leaderboard Page
   - [x] Implement the UI to display the leaderboard in each game, where the user can select it via a tab group (/leaderboard)
