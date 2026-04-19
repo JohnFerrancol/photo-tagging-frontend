@@ -115,7 +115,7 @@ npm run dev
   - [x] Fetch and render the single game data from the backend through the GET /api/v1/games/:id API endpoint
 - [ ] Creating the Game Session Flow
   - [ ] Start the game via the backend through the POST /api/v1/games/:id/start API endpoint
-  - [ ] Track the time on the front end
+  - [x] Track the time on the front end
   - [x] Capture the normalised x and y coordinates of the clicked position and allow the user to select the character from the dropdown
   - [x] Validate user input through the POST /api/v1/games/:id/guess endpoint
   - [x] Display the feedback and render markers for found characters and remove them from the dropdown selection

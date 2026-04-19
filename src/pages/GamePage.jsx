@@ -1,6 +1,7 @@
 import { useParams } from 'react-router';
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import useGame from '../hooks/useGame';
+import useTimer from '../hooks/useTimer';
 import LoadingComponent from '../components/shared/LoadingComponent';
 import FetchFailure from '../components/shared/FetchFailure';
 import GameHeader from '../components/game/GameHeader';
@@ -10,21 +11,29 @@ import CharacterDropdown from '../components/game/CharacterDropdown';
 
 const GamePage = () => {
   const { gameId } = useParams();
-  const { gameData, loading, error, guessCharacter } = useGame(gameId);
 
   const imageRef = useRef(null);
 
+  // Game States
+  const { gameData, loading, error, guessCharacter } = useGame(gameId);
   const [markers, setMarkers] = useState([]);
   const [openDropdown, setOpenDropdown] = useState(false);
   const [clickPosition, setClickPosition] = useState(null);
 
-  if (loading) {
-    return <LoadingComponent message="Loading Game" />;
-  }
+  // Timer States
+  const [isRunning, setIsRunning] = useState(false);
+  const { time, reset } = useTimer(isRunning);
 
-  if (error) {
-    return <FetchFailure message="Failed to load game" />;
-  }
+  const foundNames = markers.filter((m) => m.status === 'correct').map((m) => m.label);
+
+  useEffect(() => {
+    const init = async () => {
+      reset();
+      setIsRunning(true);
+    };
+
+    init();
+  }, []);
 
   // Event handler used to obtain the normalised x and y coordinates of the positions clicked and opens the dropdown for the user to select the character
   const handleClick = (e) => {
@@ -90,11 +99,27 @@ const GamePage = () => {
     setClickPosition(null);
   };
 
-  const foundNames = markers.filter((m) => m.status === 'correct').map((m) => m.label);
+  useEffect(() => {
+    if (gameData && foundNames.length === gameData.characters.length) {
+      const endGame = async () => {
+        setIsRunning(false);
+      };
+
+      endGame();
+    }
+  }, [foundNames]);
+
+  if (loading) {
+    return <LoadingComponent message="Loading Game" />;
+  }
+
+  if (error) {
+    return <FetchFailure message="Failed to load game" />;
+  }
 
   return (
     <div className="flex flex-col gap-2 px-4 py-5">
-      <GameHeader gameData={gameData} foundNames={foundNames} />
+      <GameHeader gameData={gameData} foundNames={foundNames} time={time} />
 
       <GameImage imageUrl={gameData.imageUrl} imageRef={imageRef} onClick={handleClick}>
         <MarkersLayer markers={markers} />
