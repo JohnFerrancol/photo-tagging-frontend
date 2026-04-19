@@ -11,7 +11,7 @@ const LeaderboardPage = () => {
   const { leaderboardData, loading } = useLeaderboard(gameId);
 
   if (loading) {
-    return <LoadingComponent data="Leaderboard" />;
+    return <LoadingComponent message="Loading Leaderboard" />;
   }
 
   return (

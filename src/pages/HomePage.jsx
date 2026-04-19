@@ -1,12 +1,17 @@
 import useGames from '../hooks/useGames';
 import LoadingComponent from '../components/LoadingComponent';
+import FetchFailure from '../components/FetchFailure';
 import GameLink from '../components/GameLink';
 
 const HomePage = () => {
-  const { games, loading } = useGames();
+  const { games, loading, error } = useGames();
 
   if (loading) {
-    return <LoadingComponent data="Games" />;
+    return <LoadingComponent message="Loading Games" />;
+  }
+
+  if (error) {
+    return <FetchFailure message="Failed to load games" />;
   }
 
   return (

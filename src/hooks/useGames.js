@@ -5,6 +5,7 @@ const API_URL = import.meta.env.VITE_API_URL;
 const useGames = () => {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   const fetchGames = async () => {
     try {
@@ -15,7 +16,7 @@ const useGames = () => {
       const gamesData = await response.json();
       setGames(gamesData.games);
     } catch (error) {
-      console.error(error);
+      setError(error);
     } finally {
       setTimeout(() => setLoading(false), 1000);
     }
@@ -25,7 +26,7 @@ const useGames = () => {
     fetchGames();
   }, []);
 
-  return { games, loading };
+  return { games, loading, error };
 };
 
 export default useGames;
