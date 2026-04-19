@@ -46,8 +46,9 @@ photo-tagging-frontend/
 │   │   └── GameContext.jsx        // TBD
 │   │
 │   ├── hooks/
-│   │   ├── useGameSession.js      // TBD
-│   │   └── useTimer.js            // TBD
+│   │   ├── useGames.js            // React Hooks relating to data retrieval and manipulation of the /api/v1/games APIs
+│   │   └── useLeaderboard.js      // React Hooks relating to data retrieval and manipulation of the /api/v1/leaderboards APIs
+│   │   └── useTimer.js            // React Hook to display a timer for the game session
 │   │
 │   ├── routes/
 │   │   └── routes.jsx             // Define the routes in the React Single Page Application: /, /leaderboards, /games/:gameId
