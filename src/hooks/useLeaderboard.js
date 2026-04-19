@@ -12,13 +12,13 @@ const useLeaderboard = (gameId) => {
 
     const fetchLeaderboard = async () => {
       try {
-        const res = await fetch(`${API_URL}/api/v1/leaderboards/${gameId}`);
-        if (!res.ok) throw new Error('Failed to fetch leaderboard');
+        const response = await fetch(`${API_URL}/api/v1/leaderboards/${gameId}`);
+        if (!response.ok) throw new Error('Failed to fetch leaderboard');
 
-        const data = await res.json();
-        setLeaderboardData(data);
-      } catch (err) {
-        setError(err);
+        const leaderboardData = await response.json();
+        setLeaderboardData(leaderboardData);
+      } catch (error) {
+        setError(error);
       } finally {
         setTimeout(() => setLoading(false), 1000);
       }

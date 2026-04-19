@@ -6,7 +6,7 @@ const GameLink = ({ id, name, imageUrl }) => {
       <Link to={`/games/${id}`}>
         <img src={imageUrl} alt={name} className="w-full h-100 object-cover rounded-t-2xl" />
 
-        <div className=" px-5 py-3">
+        <div className="px-5 py-3">
           <h1 className="text-lg font-semibold">{name}</h1>
           <p className="text-md font-md">3 characters to find!</p>
         </div>

@@ -8,10 +8,14 @@ import LeaderboardLink from '../components/LeaderboardLink';
 const LeaderboardPage = () => {
   const { gameId } = useParams();
   const { games } = useGames();
-  const { leaderboardData, loading } = useLeaderboard(gameId);
+  const { leaderboardData, loading, error } = useLeaderboard(gameId);
 
   if (loading) {
     return <LoadingComponent message="Loading Leaderboard" />;
+  }
+
+  if (error) {
+    return <FetchFailure message="Failed to load leaderboard" />;
   }
 
   return (

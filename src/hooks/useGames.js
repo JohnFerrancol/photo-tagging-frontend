@@ -10,6 +10,7 @@ const useGames = () => {
   const fetchGames = async () => {
     try {
       const response = await fetch(`${API_URL}/api/v1/games`);
+      if (!response.ok) throw new Error('Failed to fetch games');
 
       if (!response.ok) throw new Error();
 

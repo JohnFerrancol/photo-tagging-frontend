@@ -110,9 +110,9 @@ npm run dev
 - [x] Creating the Home Page
   - [x] Implement the UI to display the available games on the Home Page (/)
   - [x] Fetch and render the game data from the backend through the GET /api/v1/games API endpoint
-- [ ] Creating the Game Page
-  - [ ] Implement the UI to display the selected image and the list of characters to find (/games/:gameId)
-  - [ ] Fetch and render the single game data from the backend through the GET /api/v1/games/:id API endpoint
+- [x] Creating the Game Page
+  - [x] Implement the UI to display the selected image and the list of characters to find (/games/:gameId)
+  - [x] Fetch and render the single game data from the backend through the GET /api/v1/games/:id API endpoint
 - [ ] Creating the Game Session Flow
   - [ ] Start the game via the backend through the POST /api/v1/games/:id/start API endpoint
   - [ ] Track the time on the front end
