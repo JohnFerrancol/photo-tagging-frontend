@@ -8,7 +8,6 @@
 
 This is a project from [The Odin Project](https://theodinproject.com): [Project: Project: Where's Waldo (A Photo Tagging App)](https://www.theodinproject.com/lessons/nodejs-where-s-waldo-a-photo-tagging-app). This Photo Tagging App Project is inspired by [Where's Waldo](https://www.theodinproject.com/lessons/nodejs-where-s-waldo-a-photo-tagging-app) game. This is where you are presented with a busy and crowded illustration that contains many different people, objects, and places. Your task is to find a particular character named Waldo, who is hidden somewhere in the illustration.
 
-
 ## Tech Stack
 
 - [![HTML](https://img.shields.io/badge/HTML-%23E34F26.svg?logo=html5&logoColor=white)](#)
@@ -42,17 +41,17 @@ photo-tagging-frontend/
 │   │   └── Timer.jsx              // TBD
 │   │   └── LeaderboardTable.jsx   // TBD
 │   │   └── session.service.js     // TBD
-│   │  
+│   │
 │   ├── context/
 │   │   └── GameContext.jsx        // TBD
 │   │
 │   ├── hooks/
 │   │   ├── useGameSession.js      // TBD
 │   │   └── useTimer.js            // TBD
-│   │  
+│   │
 │   ├── routes/
 │   │   └── routes.jsx             // Define the routes in the React Single Page Application: /, /leaderboards, /games/:gameId
-│   │  
+│   │
 │   ├── styles/
 │   │   └── App.css                // Where tailwindcss is defined and called to be used in the Pages and Components
 │   │
@@ -107,9 +106,9 @@ npm run dev
 
 ## Roadmap
 
-- [ ] Creating the Home Page
-  - [ ] Implement the UI to display the available games on the Home Page (/)
-  - [ ] Fetch and render the game data from the backend through the GET /api/v1/games API endpoint
+- [x] Creating the Home Page
+  - [x] Implement the UI to display the available games on the Home Page (/)
+  - [x] Fetch and render the game data from the backend through the GET /api/v1/games API endpoint
 - [ ] Creating the Game Page
   - [ ] Implement the UI to display the selected image and the list of characters to find (/games/:gameId)
   - [ ] Fetch and render the single game data from the backend through the GET /api/v1/games/:id API endpoint
@@ -122,4 +121,4 @@ npm run dev
   - [ ] Detect in the front end when all characters are found and send the details to the POST /api/v1/games/:id/finish API endpoint
 - [ ] Creating the Leaderboard Page
   - [ ] Implement the UI to display the leaderboard in each game, where the user can select it via a tab group (/leaderboard)
-  - [ ] Fetch and render the single game leaderboard from the backend through the GET /api/v1/leaderboard/:gameId API endpoint    
+  - [ ] Fetch and render the single game leaderboard from the backend through the GET /api/v1/leaderboard/:gameId API endpoint

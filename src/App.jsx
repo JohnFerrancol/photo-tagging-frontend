@@ -1,19 +1,19 @@
-import { useState } from 'react';
 import './styles/App.css';
-import Component from './components/Component';
+import { Outlet } from 'react-router';
+
+import useGame from './hooks/useGame';
+import GameContext from './context/GameContext';
+import Navbar from './components/Navbar';
 
 function App() {
-  const [count, setCount] = useState(0);
-
-  const handleClick = () => {
-    setCount(count + 1);
-  };
-
+  const game = useGame();
   return (
-    <div className="flex justify-center">
-      <h1 className="text-3xl font-bold">{count}</h1>
-      <Component handleClick={handleClick} />
-    </div>
+    <GameContext value={game}>
+      <div className="font-inter bg-[#fcfaf8] text-[#202020] min-h-screen">
+        <Navbar />
+        <Outlet />
+      </div>
+    </GameContext>
   );
 }
 
