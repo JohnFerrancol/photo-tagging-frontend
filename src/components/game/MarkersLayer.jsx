@@ -1,17 +1,17 @@
 const MarkersLayer = ({ markers }) => {
   return (
     <>
-      {markers.map((m) => (
+      {markers.map((marker) => (
         <div
-          key={m.id}
+          key={marker.id}
           className="absolute flex items-center justify-center pointer-events-none"
           style={{
-            left: `${m.x * 100}%`,
-            top: `${m.y * 100}%`,
+            left: `${marker.x * 100}%`,
+            top: `${marker.y * 100}%`,
             transform: 'translate(-50%, -50%)',
           }}
         >
-          {m.status === 'correct' ? (
+          {marker.status === 'correct' ? (
             <div className="w-6 h-6 bg-green-500 rounded-full flex items-center justify-center text-white text-sm font-bold">
               ✓
             </div>

@@ -17,14 +17,14 @@ const CharacterDropdown = ({
       }}
     >
       {characters
-        .filter((c) => !foundNames.includes(c.name))
-        .map((char) => (
+        .filter((character) => !foundNames.includes(character.name))
+        .map((character) => (
           <div
-            key={char.id}
-            onClick={() => handleSelectCharacter(char.name)}
+            key={character.id}
+            onClick={() => handleSelectCharacter(character.name)}
             className="px-4 py-2 hover:bg-[#f4f1ea] hover:rounded-md cursor-pointer whitespace-nowrap"
           >
-            {char.name}
+            {character.name}
           </div>
         ))}
     </div>
