@@ -1,5 +1,6 @@
 import { useParams } from 'react-router';
 import { useRef, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router';
 import useGame from '../hooks/useGame';
 import useTimer from '../hooks/useTimer';
 import LoadingComponent from '../components/shared/LoadingComponent';
@@ -33,6 +34,8 @@ const GamePage = () => {
   // Ensure that the finishGame function is only ran once
   const hasFinished = useRef(false);
   const clientEndTime = useRef(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     hasFinished.current = false;
@@ -143,6 +146,8 @@ const GamePage = () => {
     } else {
       setErrorsArray({});
       setShowCompletionModal(false);
+
+      navigate(`/leaderboards/${gameId}`);
     }
   };
 
