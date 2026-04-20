@@ -19,7 +19,7 @@ const useGames = () => {
     } catch (error) {
       setError(error);
     } finally {
-      setTimeout(() => setLoading(false), 1000);
+      setLoading(false);
     }
   };
 

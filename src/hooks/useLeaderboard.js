@@ -20,7 +20,7 @@ const useLeaderboard = (gameId) => {
       } catch (error) {
         setError(error);
       } finally {
-        setTimeout(() => setLoading(false), 1000);
+        setLoading(false);
       }
     };
 
