@@ -29,6 +29,7 @@ const GamePage = () => {
   useEffect(() => {
     const init = async () => {
       reset();
+
       setIsRunning(true);
     };
 

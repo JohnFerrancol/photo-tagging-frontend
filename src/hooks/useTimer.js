@@ -21,7 +21,7 @@ const useTimer = (isRunning) => {
 
   const reset = () => setTime(0);
 
-  return { time, setTime, reset };
+  return { time, reset };
 };
 
 export default useTimer;
