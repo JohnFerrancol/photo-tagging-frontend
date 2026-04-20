@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -8,8 +8,18 @@ const useGame = (gameId) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // Using a hasStarted ref to ensure that startGame only runs once per mount
+  const hasStarted = useRef(false);
+
+  // Reset the reference when the gameId changes
   useEffect(() => {
-    if (!gameId) return;
+    hasStarted.current = false;
+  }, [gameId]);
+
+  useEffect(() => {
+    if (!gameId || hasStarted.current) return;
+
+    hasStarted.current = true;
 
     const fetchGame = async () => {
       const response = await fetch(`${API_URL}/api/v1/games/${gameId}`);
