@@ -34,21 +34,29 @@ photo-tagging-frontend/
 │   │   └── LeaderboardPage.jsx    // Page render to allow users to see the leaderboard for each game
 │   │
 │   ├── components/
-│   │   ├── GameImage.jsx          // TBD
-│   │   └── TargetBox.jsx          // TBD
-│   │   └── CharacterDropdown.jsx  // TBD
-│   │   └── Marker.jsx             // TBD
-│   │   └── Timer.jsx              // TBD
-│   │   └── LeaderboardTable.jsx   // TBD
-│   │   └── session.service.js     // TBD
+│   │   └── game
+│   │       ├── CharacterDropdown.jsx  // Render the dropdown of characters not found yet in the game
+│   │       └── CompletionModal.jsx    // Render the modal to let users input their name to the leaderboard
+│   │       └── GameHeader.jsx         // Render the header to show the game name, character images to find and the time
+│   │       └── GameImage.jsx          // Render the actual game image
+│   │       └── MarketsLayer .jsx      // Render the markets in the game image to show users wrong and right guesses
 │   │
-│   ├── context/
-│   │   └── GameContext.jsx        // TBD
+│   │   └── home
+│   │       └── GameLink.jsx           // Render a Link Component to navigate the users to the /games/:gameId route
+│   │
+│   │   └── leaderboard
+│   │       ├── LeaderboardLink.jsx    // Render a Link Component to navigate the users to the /leaderboards/:gameId route
+│   │       └── LeaderboardTable.jsx   // Render the actual leaderboard table for each game
+│   │
+│   │   └── shared
+│   │       ├── FetchFailure.jsx       // Render an error message when there is any error in fetching the data
+│   │       └── LoadingComponent.jsx   // Render the loading component when waiting for data to be fetched
+│   │       └── Navbar.jsx             // Render the Application Navabar
 │   │
 │   ├── hooks/
-│   │   ├── useGames.js            // React Hooks relating to data retrieval and manipulation of the /api/v1/games APIs
-│   │   └── useLeaderboard.js      // React Hooks relating to data retrieval and manipulation of the /api/v1/leaderboards APIs
-│   │   └── useTimer.js            // React Hook to display a timer for the game session
+│   │   ├── useGames.js               // React Hooks relating to data retrieval and manipulation of the /api/v1/games APIs
+│   │   └── useLeaderboard.js         // React Hooks relating to data retrieval and manipulation of the /api/v1/leaderboards APIs
+│   │   └── useTimer.js               // React Hook to display a timer for the game session
 │   │
 │   ├── routes/
 │   │   └── routes.jsx             // Define the routes in the React Single Page Application: /, /leaderboards, /games/:gameId
@@ -112,14 +120,14 @@ npm run dev
   - [x] Fetch and render the game data from the backend through the GET /api/v1/games API endpoint
 - [x] Creating the Game Page
   - [x] Implement the UI to display the selected image and the list of characters to find (/games/:gameId)
-  - [x] Fetch and render the single game data from the backend through the GET /api/v1/games/:id API endpoint
+  - [x] Fetch and render the single game data from the backend through the GET /api/v1/games/:gameId API endpoint
 - [x] Creating the Game Session Flow
-  - [x] Start the game via the backend through the POST /api/v1/games/:id/start API endpoint
+  - [x] Start the game via the backend through the POST /api/v1/games/:gameId/start API endpoint
   - [x] Track the time on the front end
   - [x] Capture the normalised x and y coordinates of the clicked position and allow the user to select the character from the dropdown
-  - [x] Validate user input through the POST /api/v1/games/:id/guess endpoint
+  - [x] Validate user input through the POST /api/v1/games/:gameId/guess endpoint
   - [x] Display the feedback and render markers for found characters and remove them from the dropdown selection
-  - [x] Detect in the front end when all characters are found and send the details to the POST /api/v1/games/:id/finish API endpoint
+  - [x] Detect in the front end when all characters are found and send the details to the POST /api/v1/games/:gameId/finish API endpoint to upload the entry to the leaderboards
 - [x] Creating the Leaderboard Page
   - [x] Implement the UI to display the leaderboard in each game, where the user can select it via a tab group (/leaderboard)
   - [x] Fetch and render the single game leaderboard from the backend through the GET /api/v1/leaderboard/:gameId API endpoint
