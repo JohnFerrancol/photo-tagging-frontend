@@ -8,6 +8,7 @@ import GameHeader from '../components/game/GameHeader';
 import GameImage from '../components/game/GameImage';
 import MarkersLayer from '../components/game/MarkersLayer';
 import CharacterDropdown from '../components/game/CharacterDropdown';
+import CompletionModal from '../components/game/CompletionModal';
 
 const GamePage = () => {
   const { gameId } = useParams();
@@ -15,16 +16,27 @@ const GamePage = () => {
   const imageRef = useRef(null);
 
   // Game States
-  const { gameData, loading, error, guessCharacter } = useGame(gameId);
+  const { gameData, loading, error, guessCharacter, finishGame } = useGame(gameId);
   const [markers, setMarkers] = useState([]);
   const [openDropdown, setOpenDropdown] = useState(false);
   const [clickPosition, setClickPosition] = useState(null);
+  const [showCompletionModal, setShowCompletionModal] = useState(false);
+  const [errorsArray, setErrorsArray] = useState({});
+  const [playerNameInput, setPlayerNameInput] = useState('');
 
   // Timer States
   const [isRunning, setIsRunning] = useState(false);
   const { time, reset } = useTimer(isRunning);
 
   const foundNames = markers.filter((m) => m.status === 'correct').map((m) => m.label);
+
+  // Ensure that the finishGame function is only ran once
+  const hasFinished = useRef(false);
+  const clientEndTime = useRef(null);
+
+  useEffect(() => {
+    hasFinished.current = false;
+  }, [gameId]);
 
   useEffect(() => {
     const init = async () => {
@@ -101,14 +113,38 @@ const GamePage = () => {
   };
 
   useEffect(() => {
-    if (gameData && foundNames.length === gameData.characters.length) {
+    if (!gameData) return;
+
+    const allCharactersFound = foundNames.length === gameData.characters.length;
+
+    if (allCharactersFound && !hasFinished.current) {
+      hasFinished.current = true;
+
       const endGame = async () => {
+        clientEndTime.current = new Date().toISOString();
+        setShowCompletionModal(true);
+
         setIsRunning(false);
       };
-
       endGame();
     }
   }, [foundNames]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const resultData = await finishGame(playerNameInput, clientEndTime.current);
+
+    if (resultData.message === 'Invalid data') {
+      setErrorsArray({
+        input: 'playerName',
+        error: resultData.errors[0].msg,
+      });
+    } else {
+      setErrorsArray({});
+      setShowCompletionModal(false);
+    }
+  };
 
   if (loading) {
     return <LoadingComponent message="Loading Game" />;
@@ -121,7 +157,6 @@ const GamePage = () => {
   return (
     <div className="flex flex-col gap-2 px-4 py-5">
       <GameHeader gameData={gameData} foundNames={foundNames} time={time} />
-
       <GameImage imageUrl={gameData.imageUrl} imageRef={imageRef} onClick={handleClick}>
         <MarkersLayer markers={markers} />
 
@@ -133,6 +168,14 @@ const GamePage = () => {
           handleSelectCharacter={handleSelectCharacter}
         />
       </GameImage>
+
+      <CompletionModal
+        showCompletionModal={showCompletionModal}
+        handleSubmit={handleSubmit}
+        playerNameInput={playerNameInput}
+        errorsArray={errorsArray}
+        onChange={(e) => setPlayerNameInput(e.target.value)}
+      />
     </div>
   );
 };

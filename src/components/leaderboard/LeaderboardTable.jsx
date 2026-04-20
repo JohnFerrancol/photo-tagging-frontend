@@ -23,7 +23,7 @@ const LeaderboardTable = ({ gameName, leaderboard }) => {
                   {index + 1 === 1 && <span className="text-3xl">🥇</span>}
                   {index + 1 === 2 && <span className="text-3xl">🥈</span>}
                   {index + 1 === 3 && <span className="text-3xl">🥉</span>}
-                  {index + 1 > 3 && <span className="text-3xl">{index + 1}</span>}
+                  {index + 1 > 3 && <span className="p-2 text-xl">{index + 1}</span>}
                 </td>
 
                 <td className="p-3">{entry.playerName}</td>

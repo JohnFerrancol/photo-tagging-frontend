@@ -77,7 +77,33 @@ const useGame = (gameId) => {
     }
   };
 
-  return { gameData, loading, error, guessCharacter };
+  const finishGame = async (playerName, clientEndTime) => {
+    if (!sessionId) {
+      console.warn('Session is not ready');
+      return null;
+    }
+
+    try {
+      const response = await fetch(`${API_URL}/api/v1/games/${gameId}/finish`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ sessionId, playerName, clientEndTime }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        return data;
+      }
+
+      return data.data;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  };
+
+  return { gameData, loading, error, guessCharacter, finishGame };
 };
 
 export default useGame;
